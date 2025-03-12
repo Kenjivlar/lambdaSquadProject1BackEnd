@@ -1,3 +1,5 @@
+package com.loanmanagement.model;
+
 public class AccountsModel {
     private int id;
     private String email;

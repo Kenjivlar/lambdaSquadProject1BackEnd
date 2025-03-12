@@ -1,59 +1,35 @@
 package com.loanmanagement.model;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "user_profiles")
 public class UserModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_profile_id")
     private int id;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private AccountsModel idAccounts;
+
+    @Column(name = "first_name",  length = 50)
     private String firstName;
+
+    @Column(name = "last_name",  length = 50)
     private String lastName;
+
+    @Column(name = "phone_number",  length = 50)
     private int phoneNumber;
+
+    @Column(name = "credit_score")
     private int creditScore;
 
-    public UserModel() {
-    }
 
-    public UserModel(String firstName, String lastName, int phoneNumber, int creditScore) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.creditScore = creditScore;
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public int getCreditScore() {
-        return creditScore;
-    }
-
-    public void setCreditScore(int creditScore) {
-        this.creditScore = creditScore;
-    }
 }

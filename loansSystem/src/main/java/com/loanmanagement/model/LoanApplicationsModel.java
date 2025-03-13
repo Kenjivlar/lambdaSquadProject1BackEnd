@@ -8,7 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+<<<<<<< HEAD
+@Entity
+@Table(name = "loan_applications")
+=======
 @Entity(name = "loan_applications")
+>>>>>>> f62977ca6a46985aa936931637058ade46b187e8
 public class LoanApplicationsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

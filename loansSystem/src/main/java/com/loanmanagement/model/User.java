@@ -53,6 +53,10 @@ public class User {
     private String lastName;
     private int phoneNumber;
     private int creditScore;
+
+
+
+
     public User() {    }
     public User(String firstName, String lastName, int phoneNumber, int creditScore) {
         this.firstName = firstName;

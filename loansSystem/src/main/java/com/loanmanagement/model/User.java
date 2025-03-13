@@ -1,27 +1,34 @@
 package com.loanmanagement.model;
 
-public class UserModel {
-    private int id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    private Long id;
     private String firstName;
     private String lastName;
     private int phoneNumber;
     private int creditScore;
 
-    public UserModel() {
+    public User() {
     }
 
-    public UserModel(String firstName, String lastName, int phoneNumber, int creditScore) {
+    public User(String firstName, String lastName, int phoneNumber, int creditScore) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.creditScore = creditScore;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

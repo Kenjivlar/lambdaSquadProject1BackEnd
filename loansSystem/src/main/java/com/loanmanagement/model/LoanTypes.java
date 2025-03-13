@@ -1,29 +1,21 @@
 package com.loanmanagement.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "loan_types")
 public class LoanTypes {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "loan_type_id")
+    private Integer id;
+    @Column(name = "name",  length = 50, nullable = false)
     private String loanType;
 
-    public LoanTypes() {
-    }
-
-    public LoanTypes(String loanType) {
-        this.loanType = loanType;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLoanType() {
-        return loanType;
-    }
-
-    public void setLoanType(String loanType) {
-        this.loanType = loanType;
-    }
 }

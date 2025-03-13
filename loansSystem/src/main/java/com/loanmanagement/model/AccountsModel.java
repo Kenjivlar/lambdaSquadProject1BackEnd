@@ -1,49 +1,32 @@
 package com.loanmanagement.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+@Entity
+@Table(name = "accounts")
 public class AccountsModel {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Long id;
+
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
+
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
-    private int idAccountType;
 
-    public AccountsModel() {
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    private AccountTypeModel accountType;
 
-    public AccountsModel(String email, String password, int idAccountType) {
-        this.email = email;
-        this.password = password;
-        this.idAccountType = idAccountType;
-    }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getIdAccountType() {
-        return idAccountType;
-    }
-
-    public void setIdAccountType(int idAccountType) {
-        this.idAccountType = idAccountType;
-    }
 }

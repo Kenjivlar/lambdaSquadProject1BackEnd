@@ -5,26 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-<<<<<<< HEAD
+
 @Entity
 @Table(name = "loan_applications")
-=======
-@Entity(name = "loan_applications")
->>>>>>> f62977ca6a46985aa936931637058ade46b187e8
+
 public class LoanApplicationsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column()
-    private Integer idUser;
-    @Column()
-    private Integer idLoanType;
-    @Column(nullable = false)
-    private Integer statusID;
-    @Column(nullable = false,name = "application_status_id")
-    private Double amountRequested;
+    @Column(name = "loan_application_id")
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private User userid;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private LoanTypes loan;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private StatusesModel status;
+
+    @Column(name = "amount_requested")
+    private BigDecimal amount;
+
+
+
 
 }

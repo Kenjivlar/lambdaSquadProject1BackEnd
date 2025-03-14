@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "accounts")
 public class AccountsModel {
@@ -18,15 +17,13 @@ public class AccountsModel {
     @Column(name = "account_id")
     private Long id;
 
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "account_type_id", nullable = false)
     private AccountTypeModel accountType;
-
-
-
 }

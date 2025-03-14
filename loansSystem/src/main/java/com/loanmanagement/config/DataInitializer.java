@@ -2,8 +2,10 @@ package com.loanmanagement.config;
 
 import com.loanmanagement.model.AccountTypeModel;
 import com.loanmanagement.model.LoanTypes;
+import com.loanmanagement.model.StatusesModel;
 import com.loanmanagement.repo.AccountTypeRepository;
 import com.loanmanagement.repo.LoanTypesRepository;
+import com.loanmanagement.repo.StatusesRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -86,6 +88,28 @@ public class DataInitializer {
                 LoanTypes weddingLoan = new LoanTypes();
                 weddingLoan.setLoanType("Wedding");
                 loanTypeRepository.save(weddingLoan);
+
+            }
+        };
+    }
+
+    @Bean
+    public CommandLineRunner loadStatusData(StatusesRepository statusRepository) {
+        return args -> {
+            if (statusRepository.count() == 0) {
+                StatusesModel statusA = new StatusesModel();
+                statusA.setStatus("accepted");
+                statusRepository.save(statusA);
+
+                StatusesModel statusR = new StatusesModel();
+                statusR.setStatus("rejected");
+                statusRepository.save(statusR);
+
+                StatusesModel statusP = new StatusesModel();
+                statusP.setStatus("pending");
+                statusRepository.save(statusP);
+
+
 
             }
         };

@@ -23,7 +23,8 @@ public class LoanApplicationsModel {
     @OneToOne(cascade = CascadeType.ALL)
     private User userid;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "loan_type_id", nullable = false)
     private LoanTypes loan;
 
     @OneToOne(cascade = CascadeType.ALL)

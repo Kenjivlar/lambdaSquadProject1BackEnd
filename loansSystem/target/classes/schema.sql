@@ -1,0 +1,54 @@
+--create database loans_db;
+
+--create table account_types(
+--account_type_id serial primary key not null,
+--type_name varchar(50) not null
+--);
+
+--select * from account_types;
+--
+--create table accounts(
+--account_id serial primary key not null,
+--email varchar(100) not null,
+--password varchar(255) not null,
+--account_type_id int not null references account_types(account_type_id)
+--);
+--
+--select * from accounts;
+--
+--create table user_profiles(
+--user_profile_id serial primary key not null,
+--account_id int not null references accounts(account_id),
+--first_name varchar(50),
+--last_name varchar(50),
+--phone_number varchar(20),
+--credit_score int
+--);
+--
+--select * from user_profiles;
+--
+--create table application_statuses(
+--application_status_id serial primary key not null,
+--status varchar(50) not null
+--);
+--
+--select * from application_statuses;
+--
+--
+--create table loan_types(
+--loan_type_id serial primary key not null,
+--name varchar(50) not null
+--);
+--
+--select * from loan_types;
+--
+--create table loan_applications(
+--loan_application_id serial primary key not null,
+--user_profile_id int not null references user_profiles(user_profile_id),
+--loan_type_id int not null references loan_types(loan_type_id),
+--application_status_id int not null references application_statuses(application_status_id),
+--amount_requested NUMERIC(15,2)
+--);
+--
+--select* from loan_applications;
+--

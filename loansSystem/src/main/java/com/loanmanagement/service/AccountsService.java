@@ -2,9 +2,12 @@ package com.loanmanagement.service;
 
 import com.loanmanagement.model.AccountsModel;
 import com.loanmanagement.model.AccountTypeModel;
+import com.loanmanagement.model.User;
 import com.loanmanagement.repo.AccountsRepository;
 import com.loanmanagement.repo.AccountTypeRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AccountsService {
@@ -33,5 +36,12 @@ public class AccountsService {
 
         // Guardar la cuenta en la base de datos
         return accountsRepository.save(account);
+    }
+
+
+    public Optional<AccountsModel> validateUser(String email, String password) {
+        // For simplicity, we assume passwords are stored in plain text.
+        // In production, you'd use a PasswordEncoder/BCrypt to compare hashed passwords.
+        return accountsRepository.findByEmailAndPassword(email, password);
     }
 }

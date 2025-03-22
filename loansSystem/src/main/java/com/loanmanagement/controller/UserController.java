@@ -1,8 +1,7 @@
 package com.loanmanagement.controller;
 
-import com.loanmanagement.model.AccountsModel;
+import com.loanmanagement.dto.RegisterUserRequest;
 import com.loanmanagement.model.User;
-import com.loanmanagement.service.AccountsService;
 import com.loanmanagement.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody RegisterUserRequest request) {
+        User newUser = userService.registerUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    }
+
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
         String message = "Hello, World!";
@@ -30,6 +35,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(errorMessage);
     }
+
+
 
 //    @GetMapping("/by-email")
 //    public ResponseEntity<User> findUserByEmail(@RequestParam String email) {

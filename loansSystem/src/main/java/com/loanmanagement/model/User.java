@@ -1,5 +1,6 @@
 package com.loanmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,8 @@ public class User {
     @Column(name = "credit_score", nullable = false)
     private int creditScore;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    @OneToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonManagedReference // Indica que este es el lado "propietario" de la relación
     private AccountsModel account;
 }

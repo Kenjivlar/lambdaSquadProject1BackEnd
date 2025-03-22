@@ -1,5 +1,6 @@
 package com.loanmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +27,8 @@ public class AccountsModel {
     @ManyToOne
     @JoinColumn(name = "account_type_id", nullable = false)
     private AccountTypeModel accountType;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private User user;
 }

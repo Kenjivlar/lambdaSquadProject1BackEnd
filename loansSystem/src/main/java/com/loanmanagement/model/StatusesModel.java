@@ -21,6 +21,4 @@ public class StatusesModel {
 
     @Column(name = "status",  length = 50)
     private String status;
-
-
 }

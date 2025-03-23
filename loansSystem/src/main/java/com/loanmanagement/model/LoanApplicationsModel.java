@@ -32,8 +32,4 @@ public class LoanApplicationsModel {
 
     @Column(name = "amount_requested")
     private BigDecimal amount;
-
-
-
-
 }

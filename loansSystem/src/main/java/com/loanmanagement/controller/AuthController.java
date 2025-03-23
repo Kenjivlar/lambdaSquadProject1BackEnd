@@ -20,11 +20,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AccountsModel account, HttpSession session) {
 
-        Optional<AccountsModel> userOpt = accountsService.validateUser(account.getEmail(), account.getPassword());
-        if (userOpt.isPresent()) {
-            session.setAttribute("account", userOpt.get());
-            System.out.println(userOpt.get().getEmail());
-            return ResponseEntity.ok(userOpt.toString());
+        Optional<AccountsModel> accountOpt = accountsService.validateUser(account.getEmail(), account.getPassword());
+        if (accountOpt.isPresent()) {
+            session.setAttribute("account", accountOpt.get());
+            System.out.println(accountOpt.get().getEmail());
+            return ResponseEntity.ok("Welcome" + accountOpt.get().getEmail());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }

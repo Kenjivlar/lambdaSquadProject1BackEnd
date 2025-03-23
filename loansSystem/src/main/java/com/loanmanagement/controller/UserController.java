@@ -26,6 +26,17 @@ public class UserController {
         //return ResponseEntity.status(HttpStatus.CONFLICT).body(newUser);
     }
 
+    /*@PostMapping("/registering")
+    public ResponseEntity<User> registeringUser(@RequestBody RegisterUserRequest request) {
+        User existingUser = userService.getUserByPhoneNumber(request.getPhoneNumber());
+        if (existingUser != null) {
+            throw new IllegalArgumentException("User already exists with phone number: " + request.getPhoneNumber());
+        }
+        User newUser = userService.registerUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        //return ResponseEntity.status(HttpStatus.CONFLICT).body(newUser);
+    }*/
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -21,6 +23,25 @@ public class UserController {
     public ResponseEntity<User> registerUser(@RequestBody RegisterUserRequest request) {
         User newUser = userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        //return ResponseEntity.status(HttpStatus.CONFLICT).body(newUser);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    /*@GetMapping("/by-email")
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+        User user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }*/
+
+    @GetMapping("/by-phone")
+    public ResponseEntity<User> getUserByPhoneNumber(@RequestParam int phoneNumber) {
+        User user = userService.getUserByPhoneNumber(phoneNumber);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/hello")

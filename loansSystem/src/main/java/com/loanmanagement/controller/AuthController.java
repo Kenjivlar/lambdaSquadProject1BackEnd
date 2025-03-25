@@ -24,7 +24,7 @@ public class AuthController {
         if (accountOpt.isPresent()) {
             session.setAttribute("account", accountOpt.get());
             System.out.println(accountOpt.get().getEmail());
-            return ResponseEntity.ok("Welcome" + accountOpt.get().getEmail());
+            return ResponseEntity.ok("Welcome: " + accountOpt.get().getEmail());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }

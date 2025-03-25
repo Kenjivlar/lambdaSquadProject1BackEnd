@@ -9,6 +9,7 @@ import com.loanmanagement.repo.AccountTypeRepository;
 import com.loanmanagement.repo.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class UserService {
 
     @Transactional
     public User registerUser(RegisterUserRequest request) {
+
+        String hashedPassword = BCrypt.hashpw(request.getPassword(), BCrypt.gensalt(12));
         // Step 1: Check if a user with the same phone number already exists
         User existingUser = userRepository.findByPhoneNumber(request.getPhoneNumber());
         if (existingUser != null) {
@@ -36,7 +39,7 @@ public class UserService {
         // Step 2: Create the account
         AccountsModel account = new AccountsModel();
         account.setEmail(request.getEmail());
-        account.setPassword(request.getPassword());
+        account.setPassword(hashedPassword);
 
         // Find the account type (role) by ID
         AccountTypeModel accountType = accountTypeRepository.findById(request.getAccountTypeId());

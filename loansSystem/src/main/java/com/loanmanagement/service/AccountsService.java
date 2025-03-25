@@ -4,6 +4,7 @@ import com.loanmanagement.model.AccountsModel;
 import com.loanmanagement.model.AccountTypeModel;
 import com.loanmanagement.repo.AccountsRepository;
 import com.loanmanagement.repo.AccountTypeRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -40,6 +41,22 @@ public class AccountsService {
     public Optional<AccountsModel> validateUser(String email, String password) {
         // For simplicity, we assume passwords are stored in plain text.
         // In production, you'd use a PasswordEncoder/BCrypt to compare hashed passwords.
-        return accountsRepository.findByEmailAndPassword(email, password);
+
+//        return accountsRepository.findByEmailAndPassword(email, password);
+
+        Optional<AccountsModel> accountOpt = accountsRepository.findByEmail(email);
+
+        if (accountOpt.isEmpty()) {
+            return Optional.empty(); // User not found
+        }
+
+        AccountsModel storedAccount = accountOpt.get();
+
+        // Compare the raw password with the hashed password in the database
+        if (BCrypt.checkpw(password, storedAccount.getPassword())) {
+            return Optional.of(storedAccount); // Password matches, return user
+        } else {
+            return Optional.empty(); // Password incorrect
+        }
     }
 }

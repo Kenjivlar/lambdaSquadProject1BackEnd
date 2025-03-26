@@ -7,6 +7,7 @@ import com.loanmanagement.model.User;
 import com.loanmanagement.repo.AccountsRepository;
 import com.loanmanagement.repo.AccountTypeRepository;
 import com.loanmanagement.repo.UserRepository;
+import com.loanmanagement.dto.UpdateUserDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,28 @@ public class UserService {
         user.setAccount(savedAccount);
 
         // Save the user
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateUser(Long userId, UpdateUserDTO updateUserDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Actualizar solo los campos proporcionados
+        if (updateUserDTO.getFirstName() != null) {
+            user.setFirstName(updateUserDTO.getFirstName());
+        }
+        if (updateUserDTO.getLastName() != null) {
+            user.setLastName(updateUserDTO.getLastName());
+        }
+        if (updateUserDTO.getPhoneNumber() != null) {
+            user.setPhoneNumber(Integer.parseInt(updateUserDTO.getPhoneNumber()));
+        }
+        if (updateUserDTO.getCreditScore() != null) {
+            user.setCreditScore(updateUserDTO.getCreditScore());
+        }
+
         return userRepository.save(user);
     }
 

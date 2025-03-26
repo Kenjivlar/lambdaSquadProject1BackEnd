@@ -78,12 +78,6 @@ public class UserController {
         return ResponseEntity.ok(userLoans);
     }
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
-    }
-
     @GetMapping("/by-phone")
     public ResponseEntity<User> getUserByPhoneNumber(@RequestParam int phoneNumber) {
         User user = userService.getUserByPhoneNumber(phoneNumber);

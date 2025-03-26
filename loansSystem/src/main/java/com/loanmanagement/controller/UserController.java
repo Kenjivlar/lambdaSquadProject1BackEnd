@@ -42,52 +42,41 @@ public class UserController {
             @RequestBody UpdateUserDTO updateUserDTO,
             HttpSession session) {
 
-        // Verificar sesión
+        // Validate session
         AccountsModel sessionAccount = (AccountsModel) session.getAttribute("account");
         if (sessionAccount == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
-        // Obtener el usuario actual
+        // Get current user
         User currentUser = sessionAccount.getUser();
         if (currentUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User profile not found");
         }
 
-        // Actualizar el usuario
+        // Update user
         User updatedUser = userService.updateUser(currentUser.getId(), updateUserDTO);
         return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping("/my-loans")
     public ResponseEntity<?> getUserLoans(HttpSession session) {
-        // Verificar sesión
+        // Validate session
         AccountsModel sessionAccount = (AccountsModel) session.getAttribute("account");
         if (sessionAccount == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
-        // Obtener el usuario actual
+        // Get current user
         User currentUser = sessionAccount.getUser();
         if (currentUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User profile not found");
         }
 
-        // Obtener préstamos del usuario
+        // Get user´s loans
         List<LoanApplicationsModel> userLoans = loanService.findLoansByUserId(currentUser.getId());
         return ResponseEntity.ok(userLoans);
     }
-
-    /*@PostMapping("/registering")
-    public ResponseEntity<User> registeringUser(@RequestBody RegisterUserRequest request) {
-        User existingUser = userService.getUserByPhoneNumber(request.getPhoneNumber());
-        if (existingUser != null) {
-            throw new IllegalArgumentException("User already exists with phone number: " + request.getPhoneNumber());
-        }
-        User newUser = userService.registerUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-        //return ResponseEntity.status(HttpStatus.CONFLICT).body(newUser);
-    }*/
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -95,40 +84,9 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    /*@GetMapping("/by-email")
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
-        User user = userService.getUserByEmail(email);
-        return ResponseEntity.ok(user);
-    }*/
-
     @GetMapping("/by-phone")
     public ResponseEntity<User> getUserByPhoneNumber(@RequestParam int phoneNumber) {
         User user = userService.getUserByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(user);
     }
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        String message = "Hello, World!";
-        return ResponseEntity.ok(message);
-    }
-
-    @GetMapping("/error")
-    public ResponseEntity<String> error() {
-        String errorMessage = "Internal Server Error";
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(errorMessage);
-    }
-
-
-
-//    @GetMapping("/by-email")
-//    public ResponseEntity<User> findUserByEmail(@RequestParam String email) {
-//        User user = userService.getUserByEmail(email);
-//        if (user != null) {
-//            return ResponseEntity.ok(user);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//    }
 }

@@ -68,7 +68,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Actualizar solo los campos proporcionados
+        // Update given fields
         if (updateUserDTO.getFirstName() != null) {
             user.setFirstName(updateUserDTO.getFirstName());
         }
@@ -97,7 +97,6 @@ public class UserService {
         return userRepository.findByEmail(account);
     }*/
 
-    // UserService.java
     public User getUserByPhoneNumber(int phoneNumber) {
         User user = userRepository.findByPhoneNumber(phoneNumber);
         if (user == null) {

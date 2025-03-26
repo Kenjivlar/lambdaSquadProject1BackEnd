@@ -20,30 +20,25 @@ public class AccountsService {
         this.accountTypeRepository = accountTypeRepository;
     }
 
-    // Guardar una nueva cuenta
+    // Save new account
     public AccountsModel saveAccount(AccountsModel account) {
-        // Validar que el email no esté en uso
-        if (accountsRepository.findByEmail(account.getEmail()) != null) {
-            throw new IllegalArgumentException("El email ya está en uso");
+        // Validate that email is available
+        if (accountsRepository.findByEmail(account.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email already exist");
         }
 
-        // Buscar el rol por ID
+        // Find rol by Id
         AccountTypeModel accountType = accountTypeRepository.findById(account.getAccountType().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Rol no válido"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid rol"));
 
-        // Asignar el rol a la cuenta
+        // Assign rol
         account.setAccountType(accountType);
 
-        // Guardar la cuenta en la base de datos
+        // Save account in DB
         return accountsRepository.save(account);
     }
 
     public Optional<AccountsModel> validateUser(String email, String password) {
-        // For simplicity, we assume passwords are stored in plain text.
-        // In production, you'd use a PasswordEncoder/BCrypt to compare hashed passwords.
-
-//        return accountsRepository.findByEmailAndPassword(email, password);
-
         Optional<AccountsModel> accountOpt = accountsRepository.findByEmail(email);
 
         if (accountOpt.isEmpty()) {

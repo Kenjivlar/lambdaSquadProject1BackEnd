@@ -25,18 +25,18 @@ public class AdminController {
 
     @GetMapping("/loans")
     public ResponseEntity<?> getAllLoansAdmin(HttpSession session) {
-        // Verificar sesión
+        // Validate session
         AccountsModel sessionAccount = (AccountsModel) session.getAttribute("account");
         if (sessionAccount == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
-        // Verificar rol de administrador
+        // Validate admin rol
         if (!"admin".equals(sessionAccount.getAccountType().getRole())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied. Admin role required");
         }
 
-        // Obtener todos los préstamos
+        // Get all loans
         List<LoanApplicationsModel> loans = loanService.findAllLoans();
         return ResponseEntity.ok(loans);
     }

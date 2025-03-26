@@ -40,7 +40,7 @@ public class LoanService {
 
     @Transactional
     public LoanApplicationsModel createLoan(LoanApplicationsModel newLoan) {
-        // Validaciones adicionales
+        // Extra validations
         if(newLoan.getTitle() == null || newLoan.getTitle().isBlank()) {
             throw new IllegalArgumentException("Loan title is required");
         }
@@ -49,12 +49,12 @@ public class LoanService {
             throw new IllegalArgumentException("Loan description is required");
         }
 
-        // Asegurar que el estado sea "pending"
+        // Make pending status by default
         StatusesModel pendingStatus = statusRepository.findByStatus("pending")
                 .orElseThrow(() -> new RuntimeException("Pending status not found"));
         newLoan.setStatus(pendingStatus);
 
-        // Validar que el tipo de préstamo existe
+        // Set loan type
         if(newLoan.getLoanType() == null || newLoan.getLoanType().getId() == null) {
             throw new IllegalArgumentException("Loan type is required");
         }
@@ -63,7 +63,7 @@ public class LoanService {
                 .orElseThrow(() -> new RuntimeException("Loan type not found"));
         newLoan.setLoanType(loanType);
 
-        // Establecer fecha si no está establecida
+        // Set date
         if(newLoan.getApplicationDate() == null) {
             newLoan.setApplicationDate(LocalDate.now());
         }

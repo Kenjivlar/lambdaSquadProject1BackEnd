@@ -30,7 +30,7 @@ public class LoanController {
         return ResponseEntity.ok(loanService.findAllLoans());
     }
 
-    @GetMapping("/{id}") //Find by phone number
+    @GetMapping("/{id}") //Find user by phone number
     public ResponseEntity<LoanApplicationsModel> getLoanById(@PathVariable Long id){
         return loanService.findLoanById(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -43,34 +43,34 @@ public class LoanController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
-        // Obtener el usuario de la sesión
+        // Get user session
         User currentUser = sessionAccount.getUser();
         if(currentUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User profile not complete");
         }
 
-        // Validar campos obligatorios
+        // Validate required fields
         if(loanDTO.getTitle() == null || loanDTO.getDescription() == null) {
             return ResponseEntity.badRequest().body("Title and description are required");
         }
 
-        // Crear el modelo de préstamo
+        // Create loan model
         LoanApplicationsModel newLoan = new LoanApplicationsModel();
         newLoan.setUserId(currentUser);
         newLoan.setTitle(loanDTO.getTitle());
         newLoan.setDescription(loanDTO.getDescription());
         newLoan.setApplicationDate(LocalDate.now());
 
-        // Configurar el tipo de préstamo
+        // Set loan type
         LoanTypes loanType = new LoanTypes();
         loanType.setId(loanDTO.getLoanTypeId());
         newLoan.setLoanType(loanType);
 
-        // Configurar los valores del préstamo
+        // Configure loan values
         newLoan.setAmount(loanDTO.getAmount());
         newLoan.setInterest(loanDTO.getInterestRate());
 
-        // Guardar el préstamo
+        // Save loans
         try {
             LoanApplicationsModel savedLoan = loanService.createLoan(newLoan);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedLoan);
@@ -121,7 +121,7 @@ public class LoanController {
             @RequestBody UpdateLoanStatusDTO statusDTO,
             HttpSession session) {
 
-        // Verificar sesión y rol de administrador
+        // Validate session and rol
         AccountsModel sessionAccount = (AccountsModel) session.getAttribute("account");
         if (sessionAccount == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
@@ -131,13 +131,13 @@ public class LoanController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied. Admin role required");
         }
 
-        // Validar que el estado sea válido ("approved" o "rejected")
+        // Validate loan status ("approved" or "rejected")
         if (!"accepted".equalsIgnoreCase(statusDTO.getStatus()) &&
                 !"rejected".equalsIgnoreCase(statusDTO.getStatus())) {
             return ResponseEntity.badRequest().body("Invalid status. Only 'approved' or 'rejected' allowed");
         }
 
-        // Actualizar el estado del préstamo
+        // Update loan status
         LoanApplicationsModel updatedLoan = loanService.updateLoanStatus(loanId, statusDTO.getStatus());
         return ResponseEntity.ok(updatedLoan);
     }

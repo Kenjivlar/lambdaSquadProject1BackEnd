@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @GetMapping("/by-phone")
-    public ResponseEntity<User> getUserByPhoneNumber(@RequestParam int phoneNumber) {
+    public ResponseEntity<User> getUserByPhoneNumber(@RequestParam String phoneNumber) {
         User user = userService.getUserByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(user);
     }

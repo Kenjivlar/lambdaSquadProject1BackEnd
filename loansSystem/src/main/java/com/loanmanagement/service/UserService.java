@@ -76,7 +76,7 @@ public class UserService {
             user.setLastName(updateUserDTO.getLastName());
         }
         if (updateUserDTO.getPhoneNumber() != null) {
-            user.setPhoneNumber(String.valueOf(Integer.parseInt(updateUserDTO.getPhoneNumber())));
+            user.setPhoneNumber(updateUserDTO.getPhoneNumber());
         }
         if (updateUserDTO.getCreditScore() != null) {
             user.setCreditScore(updateUserDTO.getCreditScore());
@@ -97,7 +97,7 @@ public class UserService {
         return userRepository.findByEmail(account);
     }*/
 
-    public User getUserByPhoneNumber(int phoneNumber) {
+    public User getUserByPhoneNumber(String phoneNumber) {
         User user = userRepository.findByPhoneNumber(String.valueOf(phoneNumber));
         if (user == null) {
             throw new IllegalArgumentException("User not found with phone number: " + phoneNumber);

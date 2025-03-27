@@ -130,7 +130,7 @@ class UserServiceTest {
         when(userRepository.findByPhoneNumber("1234567890")).thenReturn(user);
 
         // Search for user by phone
-        User foundUser = userService.getUserByPhoneNumber(1234567890);
+        User foundUser = userService.getUserByPhoneNumber("1234567890");
 
         assertNotNull(foundUser);
         assertEquals("Carlos", foundUser.getFirstName());

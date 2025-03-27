@@ -1,11 +1,8 @@
 package com.loanmanagement.config;
 
-import com.loanmanagement.model.AccountTypeModel;
-import com.loanmanagement.model.LoanTypes;
-import com.loanmanagement.model.StatusesModel;
-import com.loanmanagement.repo.AccountTypeRepository;
-import com.loanmanagement.repo.LoanTypesRepository;
-import com.loanmanagement.repo.StatusesRepository;
+import com.loanmanagement.model.*;
+import com.loanmanagement.repo.*;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +21,35 @@ public class DataInitializer {
                 AccountTypeModel regularUserRole = new AccountTypeModel();
                 regularUserRole.setRole("regular user");
                 accountTypeRepository.save(regularUserRole);
+
+            }
+        };
+    }
+
+
+    @Bean
+    public CommandLineRunner loadDataAccountAndUser(AccountsRepository accountsRepository, UserRepository userRepository) {
+        return args -> {
+            if (accountsRepository.count() == 0) {
+                AccountTypeModel accountTypeModel = new AccountTypeModel();
+                accountTypeModel.setId(1L);
+                AccountsModel adminAccount = new AccountsModel();
+                adminAccount.setEmail("admin@mail.com");
+                adminAccount.setPassword(BCrypt.hashpw("admin1234", BCrypt.gensalt(12)));
+                adminAccount.setAccountType(accountTypeModel);
+                adminAccount = accountsRepository.save(adminAccount);
+                //here its saved into the same variable the whole saved object just to get the accountType
+
+
+                User adminUser = new User();
+                adminUser.setFirstName("Admin");
+                adminUser.setLastName("Manager");
+                adminUser.setPhoneNumber("5582901910");
+                adminUser.setCreditScore(50000);
+                adminUser.setAccount(adminAccount);
+                //here I set the Account by the previous saved variable, that contains the whole Account
+                userRepository.save(adminUser);
+
 
             }
         };

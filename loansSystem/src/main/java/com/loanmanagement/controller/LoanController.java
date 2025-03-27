@@ -114,7 +114,7 @@ public class LoanController {
         }
 
         if(!"admin".equals(sessionAccount.getAccountType().getRole())){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acces denied");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
         }
 
         boolean deleted = loanService.deleteLoan(id);
@@ -127,13 +127,17 @@ public class LoanController {
             @RequestBody UpdateLoanStatusDTO statusDTO,
             HttpSession session) {
 
+        logger.debug("Request to update loan status ID: {}", loanId);
+
         // Validate session and rol
         AccountsModel sessionAccount = (AccountsModel) session.getAttribute("account");
         if (sessionAccount == null) {
+            logger.warn("Attempt to update status without authentication");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
         if (!"admin".equals(sessionAccount.getAccountType().getRole())) {
+            logger.warn("Unauthorized user attempted to change status: {}", sessionAccount.getEmail());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied. Admin role required");
         }
 
@@ -145,6 +149,8 @@ public class LoanController {
 
         // Update loan status
         LoanApplicationsModel updatedLoan = loanService.updateLoanStatus(loanId, statusDTO.getStatus());
+        logger.info("Admin {} updating loan status {} to {}",
+                sessionAccount.getEmail(), loanId, statusDTO.getStatus());
         return ResponseEntity.ok(updatedLoan);
     }
 

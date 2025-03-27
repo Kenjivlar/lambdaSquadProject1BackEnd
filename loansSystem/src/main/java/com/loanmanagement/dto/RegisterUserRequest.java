@@ -13,6 +13,6 @@ public class RegisterUserRequest {
     private long accountTypeId;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private String phoneNumber;
     private int creditScore;
 }

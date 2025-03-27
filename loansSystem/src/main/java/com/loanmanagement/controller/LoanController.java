@@ -8,6 +8,8 @@ import com.loanmanagement.model.LoanTypes;
 import com.loanmanagement.model.User;
 import com.loanmanagement.service.LoanService;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.List;
 public class LoanController {
 
     private final LoanService loanService;
+    private static final Logger logger = LoggerFactory.getLogger(LoanController.class);
 
     public LoanController(LoanService loanService) {
         this.loanService = loanService;
@@ -40,6 +43,7 @@ public class LoanController {
     public ResponseEntity<?> createLoan(@RequestBody LoanApplicationRequest loanDTO, HttpSession session) {
         AccountsModel sessionAccount = (AccountsModel) session.getAttribute("account");
         if(sessionAccount == null) {
+            logger.warn("Attempt to create loan without authentication");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
@@ -73,8 +77,10 @@ public class LoanController {
         // Save loans
         try {
             LoanApplicationsModel savedLoan = loanService.createLoan(newLoan);
+            logger.info("Creating a new loan for a user: {}", sessionAccount.getEmail());
             return ResponseEntity.status(HttpStatus.CREATED).body(savedLoan);
         } catch (Exception e) {
+            logger.warn("Error creating a new loan for a user: {}", sessionAccount.getEmail());
             return ResponseEntity.internalServerError().body("Error creating loan: " + e.getMessage());
         }
     }

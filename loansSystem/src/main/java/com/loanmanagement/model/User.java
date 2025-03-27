@@ -23,8 +23,8 @@ public class User {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
 
-    @Column(name = "phone_number", nullable = false, length = 11)
-    private int phoneNumber;
+    @Column(name = "phone_number", nullable = false, length = 10)
+    private String phoneNumber;
 
     @Column(name = "credit_score", nullable = false)
     private int creditScore;

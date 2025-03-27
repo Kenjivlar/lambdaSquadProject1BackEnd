@@ -31,7 +31,7 @@ public class UserService {
     public User registerUser(RegisterUserRequest request) {
         String hashedPassword = BCrypt.hashpw(request.getPassword(), BCrypt.gensalt(12));
         // Step 1: Check if a user with the same phone number already exists
-        User existingUser = userRepository.findByPhoneNumber(request.getPhoneNumber());
+        User existingUser = userRepository.findByPhoneNumber(String.valueOf(request.getPhoneNumber()));
         if (existingUser != null) {
             throw new IllegalArgumentException("User already exists with phone number: " + request.getPhoneNumber());
         }
@@ -55,7 +55,7 @@ public class UserService {
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setPhoneNumber(request.getPhoneNumber());
+        user.setPhoneNumber(String.valueOf(request.getPhoneNumber()));
         user.setCreditScore(request.getCreditScore());
         user.setAccount(savedAccount);
 
@@ -76,7 +76,7 @@ public class UserService {
             user.setLastName(updateUserDTO.getLastName());
         }
         if (updateUserDTO.getPhoneNumber() != null) {
-            user.setPhoneNumber(Integer.parseInt(updateUserDTO.getPhoneNumber()));
+            user.setPhoneNumber(String.valueOf(Integer.parseInt(updateUserDTO.getPhoneNumber())));
         }
         if (updateUserDTO.getCreditScore() != null) {
             user.setCreditScore(updateUserDTO.getCreditScore());
@@ -98,7 +98,7 @@ public class UserService {
     }*/
 
     public User getUserByPhoneNumber(int phoneNumber) {
-        User user = userRepository.findByPhoneNumber(phoneNumber);
+        User user = userRepository.findByPhoneNumber(String.valueOf(phoneNumber));
         if (user == null) {
             throw new IllegalArgumentException("User not found with phone number: " + phoneNumber);
         }

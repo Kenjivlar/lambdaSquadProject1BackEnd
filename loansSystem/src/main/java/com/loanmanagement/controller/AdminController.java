@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(value = "http://localhost:5173")
 public class AdminController {
 
     private final LoanService loanService;

@@ -27,33 +27,33 @@ public class DataInitializer {
     }
 
 
-    @Bean
-    public CommandLineRunner loadDataAccountAndUser(AccountsRepository accountsRepository, UserRepository userRepository) {
-        return args -> {
-            if (accountsRepository.count() == 0) {
-                AccountTypeModel accountTypeModel = new AccountTypeModel();
-                accountTypeModel.setId(1L);
-                AccountsModel adminAccount = new AccountsModel();
-                adminAccount.setEmail("admin@mail.com");
-                adminAccount.setPassword(BCrypt.hashpw("admin1234", BCrypt.gensalt(12)));
-                adminAccount.setAccountType(accountTypeModel);
-                adminAccount = accountsRepository.save(adminAccount);
-                //here its saved into the same variable the whole saved object just to get the accountType
-
-
-                User adminUser = new User();
-                adminUser.setFirstName("Admin");
-                adminUser.setLastName("Manager");
-                adminUser.setPhoneNumber("5582901910");
-                adminUser.setCreditScore(50000);
-                adminUser.setAccount(adminAccount);
-                //here I set the Account by the previous saved variable, that contains the whole Account
-                userRepository.save(adminUser);
-
-
-            }
-        };
-    }
+//    @Bean
+//    public CommandLineRunner loadDataAccountAndUser(AccountsRepository accountsRepository, UserRepository userRepository) {
+//        return args -> {
+//            if (accountsRepository.count() == 0) {
+//                AccountTypeModel accountTypeModel = new AccountTypeModel();
+//                accountTypeModel.setId(1L);
+//                AccountsModel adminAccount = new AccountsModel();
+//                adminAccount.setEmail("admin@mail.com");
+//                adminAccount.setPassword(BCrypt.hashpw("admin1234", BCrypt.gensalt(12)));
+//                adminAccount.setAccountType(accountTypeModel);
+//                adminAccount = accountsRepository.save(adminAccount);
+//                //here its saved into the same variable the whole saved object just to get the accountType
+//
+//
+//                User adminUser = new User();
+//                adminUser.setFirstName("Admin");
+//                adminUser.setLastName("Manager");
+//                adminUser.setPhoneNumber("5582901910");
+//                adminUser.setCreditScore(50000);
+//                adminUser.setAccount(adminAccount);
+//                //here I set the Account by the previous saved variable, that contains the whole Account
+//                userRepository.save(adminUser);
+//
+//
+//            }
+//        };
+//    }
 
     @Bean
     public CommandLineRunner loadLoanData(LoanTypesRepository loanTypeRepository) {

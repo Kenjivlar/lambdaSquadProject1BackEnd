@@ -22,6 +22,4 @@ public class LoanTypes {
 
     @Column(name = "name",  length = 50)
     private String loanType;
-
-
 }

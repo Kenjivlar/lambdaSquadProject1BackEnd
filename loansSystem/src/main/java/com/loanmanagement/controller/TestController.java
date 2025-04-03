@@ -10,7 +10,7 @@ public class TestController {
 
     @GetMapping
     public String testRequest() {
-        System.out.println("Conexión a API exitosa");
+        System.out.println("Connection to API successful");
         return "Hello from the TestController";
     }
 }

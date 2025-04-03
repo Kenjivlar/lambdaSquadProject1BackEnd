@@ -7,9 +7,10 @@ import com.loanmanagement.model.User;
 import com.loanmanagement.repo.AccountsRepository;
 import com.loanmanagement.repo.AccountTypeRepository;
 import com.loanmanagement.repo.UserRepository;
+import com.loanmanagement.dto.UpdateUserDTO;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -28,10 +29,9 @@ public class UserService {
 
     @Transactional
     public User registerUser(RegisterUserRequest request) {
-
         String hashedPassword = BCrypt.hashpw(request.getPassword(), BCrypt.gensalt(12));
         // Step 1: Check if a user with the same phone number already exists
-        User existingUser = userRepository.findByPhoneNumber(request.getPhoneNumber());
+        User existingUser = userRepository.findByPhoneNumber(String.valueOf(request.getPhoneNumber()));
         if (existingUser != null) {
             throw new IllegalArgumentException("User already exists with phone number: " + request.getPhoneNumber());
         }
@@ -55,11 +55,33 @@ public class UserService {
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setPhoneNumber(request.getPhoneNumber());
+        user.setPhoneNumber(String.valueOf(request.getPhoneNumber()));
         user.setCreditScore(request.getCreditScore());
         user.setAccount(savedAccount);
 
         // Save the user
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateUser(Long userId, UpdateUserDTO updateUserDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update given fields
+        if (updateUserDTO.getFirstName() != null) {
+            user.setFirstName(updateUserDTO.getFirstName());
+        }
+        if (updateUserDTO.getLastName() != null) {
+            user.setLastName(updateUserDTO.getLastName());
+        }
+        if (updateUserDTO.getPhoneNumber() != null) {
+            user.setPhoneNumber(updateUserDTO.getPhoneNumber());
+        }
+        if (updateUserDTO.getCreditScore() != null) {
+            user.setCreditScore(updateUserDTO.getCreditScore());
+        }
+
         return userRepository.save(user);
     }
 
@@ -75,9 +97,8 @@ public class UserService {
         return userRepository.findByEmail(account);
     }*/
 
-    // UserService.java
-    public User getUserByPhoneNumber(int phoneNumber) {
-        User user = userRepository.findByPhoneNumber(phoneNumber);
+    public User getUserByPhoneNumber(String phoneNumber) {
+        User user = userRepository.findByPhoneNumber(String.valueOf(phoneNumber));
         if (user == null) {
             throw new IllegalArgumentException("User not found with phone number: " + phoneNumber);
         }

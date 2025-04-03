@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "borrower_id")
     private Long id;
 
     @Column(name = "first_name", nullable = false, length = 20)
@@ -23,13 +24,13 @@ public class User {
     private String lastName;
 
     @Column(name = "phone_number", nullable = false, length = 11)
-    private int phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "credit_score", nullable = false)
     private int creditScore;
 
     @OneToOne
     @JoinColumn(name = "account_id", nullable = false)
-    @JsonManagedReference // Indica que este es el lado "propietario" de la relación
+    @JsonManagedReference
     private AccountsModel account;
 }

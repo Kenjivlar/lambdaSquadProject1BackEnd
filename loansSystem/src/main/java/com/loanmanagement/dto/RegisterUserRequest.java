@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class RegisterUserRequest {
     private String email;
     private String password;
-    private long accountTypeId; // ID of the account type (role)
+    private long accountTypeId;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private String phoneNumber;
     private int creditScore;
 }
